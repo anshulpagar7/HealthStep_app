@@ -22,16 +22,16 @@ Hosting/Integration: Web and Mobile Compatibility
 🗂️ Project Structure
 
 HealthStep/
-├── frontend/
-│   ├── index.html
-│   ├── styles.css
-│   └── script.js
-├── backend/
-│   ├── src/
-│   ├── pom.xml
-│   └── application.properties
-└── database/
-    └── healthstep.sql
+frontend-
+index.html-
+styles.css-
+script.js-
+backend-
+src-
+pom.xml-
+application.properties-
+database-
+healthstep.sql
 
 🔄 Workflow
 
