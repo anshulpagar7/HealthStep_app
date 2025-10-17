@@ -54,9 +54,5 @@ In today’s fast-paced life, maintaining a healthy lifestyle can be challenging
 
 “One step closer to a healthier you — every day with HealthStep.”
 
-👥 Team
-
-Tanmay Kumar
-Anshul Pagar 
 
 
