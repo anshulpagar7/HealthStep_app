@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="api-base" content="https://awestruckly-identic-astrid.ngrok-free.dev/mapi">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthStep Dashboard</title>
+  <link rel="stylesheet" href="style.css"></head>
+<body>
+  <!-- Login (shown only when no user is set) -->
+  <section id="login" class="hero" style="grid-template-columns: 1fr;">    <div class="hero-content">
+      <div class="hero-eyebrow">Welcome</div>
+      <h1 class="hero-title">Sign <span class="highlight">In</span></h1>
+      <p class="hero-subtitle">Create your session so we can save data</p>
+
+      <div id="auth-box" style="display:flex; flex-direction:column; gap:12px; max-width:520px;">
+        <div style="display:flex; gap:10px;">
+          <button class="btn" id="tab-signin" style="flex:1;">Sign In</button>
+          <button class="btn-outline" id="tab-signup" style="flex:1;">Sign Up</button>
+        </div>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+          <input id="login-username" type="text" placeholder="Username"
+                 style="padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.22); background:rgba(255,255,255,0.10); color:#e5e7eb; min-width:220px;">
+          <input id="login-password" type="password" placeholder="Password"
+                 style="padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.22); background:rgba(255,255,255,0.10); color:#e5e7eb; min-width:220px;">
+          <input id="signup-password2" type="password" placeholder="Confirm password"
+                 style="display:none; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.22); background:rgba(255,255,255,0.10); color:#e5e7eb; min-width:220px;">
+        </div>
+
+        <div style="display:flex; gap:12px; align-items:center;">
+          <button class="btn" id="btn-login">Sign In</button>
+          <button class="btn" id="btn-signup" style="display:none;">Create Account</button>
+          <span id="auth-msg" style="color:#fca5a5; font-size:14px;"></span>
+        </div>
+      </div>
+
+      <p class="hero-subtitle" style="margin-top:6px; font-size:13px; color:#cbd5e1">
+        Dev note: sign up/in now uses the Spring Boot + MySQL backend on localhost.      </p>
+    </div>
+  </section>
+  <!-- SVG defs for gradients -->
+  <svg class="svg-defs" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="waterGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#60a5fa" />
+        <stop offset="100%" stop-color="#2563eb" />
+      </linearGradient>
+    </defs>
+  </svg>
+  <svg class="svg-defs" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="sleepGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#c4b5fd" />
+        <stop offset="100%" stop-color="#8b5cf6" />
+      </linearGradient>
+    </defs>
+  </svg>
+  <header>
+    <h1>HealthStep</h1>
+    <nav>
+      <a class="active" href="#dashboard">Dashboard</a>
+      <a href="#water">Water</a>
+      <a href="#sleep">Sleep</a>
+      <a href="#workout">Workout</a>
+      <a href="#nutrition">Meals</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#" id="btn-logout-nav" class="btn-outline btn-logout">Logout</a>
+    </nav>
+  </header>
+
+  <!-- Dashboard -->
+  <section id="dashboard" class="hero" style="grid-template-columns: 1.2fr 0.8fr;">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Dashboard</div>
+        <h1 class="hero-title">Your <span class="highlight">Overview</span></h1>
+        <p class="hero-subtitle">All health stats at a glance</p>
+      <div class="hero-cta">
+        <a class="btn" href="#water">Go to Water</a>
+        <a class="btn-outline" href="#leaderboard">Leaderboard</a>
+        <a href="#" id="btn-logout" class="btn-outline btn-logout">Logout</a>
+      </div>
+    </div>
+
+    <!-- New right-side Overview Panel -->
+    <div class="hero-media">
+      <div class="frame">
+        <aside class="overview-side">
+          <a class="overview-panel" href="#water">
+            <h3> Water</h3>
+            <p id="ov-water">—</p>
+          </a>
+          <a class="overview-panel" href="#sleep">
+            <h3> Sleep</h3>
+            <p id="ov-sleep">—</p>
+          </a>
+          <a class="overview-panel" href="#workout">
+            <h3> Workout</h3>
+            <p id="ov-workout">—</p>
+          </a>
+          <a class="overview-panel" href="#nutrition">
+            <h3> Meals</h3>
+            <p id="ov-nutrition">—</p>
+          </a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Water -->
+  <section id="water" class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Hydration</div>
+      <h1 class="hero-title">Water <span class="highlight">Intake</span></h1>
+      <p class="hero-subtitle" id="water-count">2.0L / 2.5L</p>
+
+      <!-- Inline water controls (no popups) -->
+  <div class="water-buttons">
+    <button onclick="addWater(250)">+250ml</button>
+    <button onclick="addWater(500)">+500ml</button>
+    <button onclick="addWater(750)">+750ml</button>
+    <button onclick="addWater(1000)">+1L</button>
+  </div>
+  <div class="water-goal">
+    <input type="number" id="goal-input-inline" min="500" step="100" placeholder="Set goal (ml)">
+    <button class="btn" id="btn-save-water">Set Goal</button>
+  </div>
+  <div class="water-actions">
+    <button class="undo-btn" onclick="undoWater()">↶ Undo</button>
+    <button class="reset-btn" onclick="resetWaterToday()">Reset</button>
+  </div>
+    </div>
+    <div class="hero-media">
+      <div class="frame">
+        <!-- Water droplet level -->
+        <div class="water-droplet">
+          <svg class="droplet-svg" viewBox="0 0 200 260" aria-label="Water level">
+            <defs>
+              <!-- Teardrop path used for outline and clipping the fill -->
+              <clipPath id="droplet-clip">
+                <path id="droplet-path" d="M100 0 C60 60, 20 120, 20 170 C20 220, 60 260, 100 260 C140 260, 180 220, 180 170 C180 120, 140 60, 100 0 Z" />
+              </clipPath>
+              <linearGradient id="dropletFillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#60a5fa"/>
+                <stop offset="100%" stop-color="#2563eb"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Outline of the droplet -->
+            <path class="droplet-outline" d="M100 0 C60 60, 20 120, 20 170 C20 220, 60 260, 100 260 C140 260, 180 220, 180 170 C180 120, 140 60, 100 0 Z"/>
+
+            <!-- Fill clipped to droplet shape -->
+            <g clip-path="url(#droplet-clip)">
+              <!-- Animated sine-wave water surface -->
+              <path id="water-wave" class="droplet-fill" d="M0 260 L200 260 L200 260 L0 260 Z" />
+            </g>
+          </svg>
+
+        </div>
+        <div class="water-tips" id="water-facts">
+          <h3> Water Facts</h3>
+          <ul id="water-facts-list"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sleep -->
+  <section id="sleep" class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Rest</div>
+      <h1 class="hero-title">Sleep <span class="highlight">Analysis</span></h1>
+      <p class="hero-subtitle"><span id="sleep-hours">7 hrs</span> - <span id="sleep-status">Good</span></p>
+      <div class="sleep-inline">
+        <div class="sleep-field">
+          <label for="bedtime">Bedtime</label>
+          <input type="time" id="bedtime">
+        </div>
+        <div class="sleep-field">
+          <label for="waketime">Wake-up</label>
+          <input type="time" id="waketime">
+        </div>
+        <div class="sleep-field">
+          <button class="btn" id="btn-set-sleep">Save</button>
+        </div>
+      </div>
+    </div>
+    <div class="hero-media">
+      <div class="frame">
+        <div class="sleep-clock">
+          <svg class="sleep-ring" width="300" height="300" viewBox="0 0 300 300" aria-label="Sleep clock">
+            <circle class="sleep-track" cx="150" cy="150" r="120" />
+            <circle class="sleep-arc" id="sleep-arc" cx="150" cy="150" r="120" />
+            <path id="sleep-arc-path" class="sleep-arc-path" d="" />
+            <circle id="sleep-start-dot" cx="150" cy="150" r="6" fill="#a78bfa" opacity="0.95" />
+            <circle id="sleep-end-dot"   cx="150" cy="150" r="6" fill="#c4b5fd" opacity="0.95" />
+          </svg>
+          <div class="sleep-center">
+            <div id="sleep-duration-label">7h 30m</div>
+            <small>Sleep Duration</small>
+          </div>
+        </div>
+        <div class="sleep-history" id="sleep-history"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workout -->
+  <section id="workout" class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Exercise</div>
+      <h1 class="hero-title">Workout <span class="highlight">Record</span></h1>
+      <p class="hero-subtitle"><span id="workout-time">30 min</span></p>
+      <div class="workout-select">
+        <label for="workout-type">Exercise:</label>
+        <select id="workout-type">
+          <option>Running</option>
+          <option>Cycling</option>
+          <option>Strength</option>
+          <option>Yoga</option>
+          <option>Walking</option>
+          <option>Swimming</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="workout-details" id="workout-details">
+      <h3>Workout Details</h3>
+
+      <div class="wd-row">
+        <label for="wd-time">Time (min)</label>
+        <input type="number" id="wd-time" min="0" step="5" placeholder="e.g., 30">
+      </div>
+
+      <div class="wd-row" id="wd-distance-row">
+        <label for="wd-distance">Distance (km)</label>
+        <input type="number" id="wd-distance" min="0" step="0.1" placeholder="e.g., 5">
+      </div>
+
+      <div class="wd-row" id="wd-muscle-row" style="display:none;">
+        <label for="wd-muscle">Muscle group</label>
+        <select id="wd-muscle">
+          <option>Chest</option>
+          <option>Back</option>
+          <option>Legs</option>
+          <option>Shoulders</option>
+          <option>Arms</option>
+          <option>Core</option>
+        </select>
+      </div>
+
+      <div class="wd-actions">
+        <button class="btn" id="btn-save-workout-details">Save Details</button>
+        <a class="btn-outline" href="#" id="btn-workout-history">History</a>
+      </div>
+
+      <p class="wd-note" id="wd-summary"></p>
+    </div>
+  </section>
+
+  <!-- Nutrition -->
+  <section id="nutrition" class="hero" style="grid-template-columns: 1.2fr 0.8fr;">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Meals</div>
+      <h1 class="hero-title">Nutrition <span class="highlight">Log</span></h1>
+      <p class="hero-subtitle" id="nutrition-status">Healthy</p>
+      <div class="hero-cta">
+        <button type="button" class="btn" id="btn-nutrition-update">Update</button>      </div>
+    </div>
+    <div class="hero-media" style="display:flex !important; align-items:flex-start; justify-content:center; padding:24px;">
+      <div class="frame" style="width:100%;">
+        <aside class="nutrition-side" style="width:100%; max-width:440px; display:flex; flex-direction:column; gap:14px;">
+          <div class="nutri-panel" style="background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.22); border-radius:14px; padding:16px; color:#e5e7eb;">
+            <h3 style="margin:0 0 10px; font-size:16px; color:#f59e0b;">Daily Totals</h3>
+            <div class="nutri-totals" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+              <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); border-radius:10px; padding:8px 10px; font-size:14px;">Calories <strong id="kcal-total">0</strong></div>
+              <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); border-radius:10px; padding:8px 10px; font-size:14px;">Protein <strong id="protein-total">0 g</strong></div>
+              <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); border-radius:10px; padding:8px 10px; font-size:14px;">Carbs <strong id="carb-total">0 g</strong></div>
+              <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); border-radius:10px; padding:8px 10px; font-size:14px;">Fat <strong id="fat-total">0 g</strong></div>
+            </div>
+          </div>
+          <div class="nutri-panel" style="background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.22); border-radius:14px; padding:16px; color:#e5e7eb;">
+            <h3 style="margin:0 0 10px; font-size:16px; color:#f59e0b;">Goals</h3>
+            <div class="nutri-goals" style="display:grid; grid-template-columns:repeat(2,1fr); gap:10px;">
+              <label style="font-size:12px; color:#cbd5e1; display:flex; flex-direction:column; gap:6px;">Kcal<input id="goal-kcal" type="number" value="2000" style="padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.22); background:rgba(255,255,255,0.10); color:#e5e7eb;"></label>
+              <label style="font-size:12px; color:#cbd5e1; display:flex; flex-direction:column; gap:6px;">Protein<input id="goal-protein" type="number" value="100" style="padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.22); background:rgba(255,255,255,0.10); color:#e5e7eb;"></label>
+              <label style="font-size:12px; color:#cbd5e1; display:flex; flex-direction:column; gap:6px;">Carbs<input id="goal-carbs" type="number" value="250" style="padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.22); background:rgba(255,255,255,0.10); color:#e5e7eb;"></label>
+              <label style="font-size:12px; color:#cbd5e1; display:flex; flex-direction:column; gap:6px;">Fat<input id="goal-fat" type="number" value="70" style="padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.22); background:rgba(255,255,255,0.10); color:#e5e7eb;"></label>
+            </div>
+            <button class="btn" id="save-nutri-goals" style="margin-top:10px">Save Goals</button>
+          </div>
+          <div class="nutri-panel" style="background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.22); border-radius:14px; padding:16px; color:#e5e7eb;">
+            <h3 style="margin:0 0 10px; font-size:16px; color:#f59e0b;">Daily Nutrition Score: <span id="nutrition-score">—</span></h3>
+            <div id="nutri-hydration-tip" class="nutri-tip" style="margin-top:6px; color:#93c5fd; font-size:14px;"></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leaderboard -->
+  <section id="leaderboard" class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Leaderboard</div>
+      <h1 class="hero-title">Top <span class="highlight">Performers</span></h1>
+      <div id="leaderboard-box" class="leaderboard-box">
+        <h3>Leaderboard</h3>
+        <ul id="leaderboard-today" class="leaderboard-list"></ul>
+      </div>
+      <div class="hero-cta">
+        <a class="btn" href="#">Dashboard</a>
+      </div>
+      <p class="note">Drink 3 glasses of water today</p>
+    </div>
+  </section>
+
+  <script src="script.js" defer></script></body>
+</html>

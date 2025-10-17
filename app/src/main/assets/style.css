@@ -1,0 +1,1699 @@
+:root { --header-offset: 105px; }
+
+/* === Auth gate: hide app sections until logged in === */
+body:not(.authed) #dashboard,
+body:not(.authed) #water,
+body:not(.authed) #sleep,
+body:not(.authed) #workout,
+body:not(.authed) #nutrition,
+body:not(.authed) #leaderboard {
+  display: none !important;
+}
+body:not(.authed) #welcome {
+  display: block !important;
+}
+
+/* Nutrition quick stats in hero */
+#nutrition-stats span { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; padding: 8px 12px; font-size: 13px; }
+
+/* Nutrition modal tweaks */
+.btn-outline.mini { padding: 6px 10px; font-size: 12px; border-radius: 999px; }
+ 
+
+
+/* Workout type select (glassy to match UI) */
+#workout-type {
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.08);
+  color: #e5e7eb;
+  outline: none;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 8px 18px rgba(0,0,0,0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 18px;
+  min-width: 200px;
+}
+.workout-select { display:flex; align-items:center; gap:10px; margin: 8px 0 6px; }
+.workout-select label { font-size: 18px; color:#cbd5e1; }
+#workout-type:focus {
+  border-color: rgba(239,68,68,0.55);
+  box-shadow: 0 0 0 3px rgba(239,68,68,0.28), inset 0 0 0 1px rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.12);
+}
+/* Workout layout: Record first, then Details directly below */
+#workout.hero { display: flex !important; flex-direction: column !important; overflow: visible !important; }
+
+/* Keep the main hero text and record section first */
+#workout .hero-content { order: 1 !important; }
+
+/* Place the Workout Details box (hero-media) immediately after the Workout Record section */
+#workout .hero-media {
+  order: 2 !important;               /* must be after .hero-content */
+  display: block !important;
+  width: 100% !important;
+  padding: 0 12px 16px !important;   /* spacing only; sizing handled by .workout-details */
+  box-sizing: border-box;
+}
+/* Compact, centered Workout details card (always) */
+#workout .workout-details { max-width: 320px; margin: 10px auto 18px; }
+#workout .hero-media { display: flex !important; align-items: center; justify-content: center; padding: 24px; }
+#workout .hero-media .frame { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
+
+/* Workout details panel (right side) — higher contrast */
+.workout-details {
+  --panel: rgba(255,255,255,0.10);
+  --panelBorder: rgba(255,255,255,0.22);
+  --ctrlBg: rgba(255,255,255,0.16);
+  --ctrlBorder: rgba(255,255,255,0.28);
+  --ctrlText: #f3f4f6;
+  --ctrlTextDim: #cbd5e1;
+
+  width: 100%;
+  max-width: 440px;
+  background: var(--panel);
+  border: 1px solid var(--panelBorder);
+  border-radius: 14px;
+  padding: 20px 20px 16px;
+  color: var(--ctrlText);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.35);
+  color-scheme: dark; /* better native control theme */
+}
+.workout-details h3 {
+  margin: 0 0 14px;
+  font-size: 17px;
+  letter-spacing: 0.2px;
+  color: #ef4444; /* red to match Workout highlight */
+}
+.wd-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.wd-row label { font-size: 13px; color: var(--ctrlTextDim); }
+
+.wd-row input[type="number"],
+.wd-row select {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--ctrlBorder);
+  background: var(--ctrlBg);
+  color: var(--ctrlText);
+  outline: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.06),
+    0 10px 22px rgba(0,0,0,0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 15px;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+  -webkit-appearance: none; /* remove muted macOS bezel */
+  appearance: none;
+}
+/* add a custom chevron for select */
+.wd-row select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23e5e7eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.wd-row input[type="number"]:focus,
+.wd-row select:focus {
+  border-color: rgba(239,68,68,0.65);
+  box-shadow: 0 0 0 3px rgba(239,68,68,0.30), inset 0 0 0 1px rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.20);
+}
+
+ .wd-actions { display: flex; flex-wrap: wrap; align-items: stretch; gap: 10px; margin-top: 6px; }
+ .wd-actions .btn, .wd-actions .btn-outline { flex: 1 1 100%; min-width: 0; white-space: nowrap; text-decoration: none; }
+ .wd-note { margin: 10px 2px 0; font-size: 13px; color: #cbd5e1; }
+/* Nudge History button slightly lower to align with Save */
+@media (min-width: 640px) {
+  .wd-actions .btn,
+  .wd-actions .btn-outline { flex: 1 1 48%; }
+}
+
+#btn-workout-history {
+  margin-top: 16px;            /* visual nudge */
+}
+
+/* Workout details — computed stats strip */
+.wd-stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.wd-stat {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #e5e7eb;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+.wd-stat strong { font-weight: 800; letter-spacing: 0.2px; }
+
+/* Workout stats panel (separate from inputs) */
+.workout-stats-panel {
+  margin-top: 16px;
+  padding: 18px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 14px;
+  color: #e5e7eb;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.3);
+}
+.workout-stats-panel h3 {
+  margin: 0 0 12px;
+  font-size: 17px;
+  color: #fb923c; /* workout accent */
+}
+.workout-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.workout-stat {
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 15px;
+  color: #f3f4f6;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+.workout-stat strong { font-weight: 700; }
+
+/* === Water Droplet Level === */
+.water-droplet { display: grid; place-items: center; margin: -10px 0 16px 0; }
+.droplet-svg { width: 200px; height: 270px; }
+.droplet-outline {
+  fill: none;
+  stroke: rgba(255,255,255,0.9);
+  stroke-width: 4;
+  filter: drop-shadow(0 6px 12px rgba(59,130,246,0.35));
+}
+.droplet-fill { fill: url(#dropletFillGrad); transition: y 0.6s ease, height 0.6s ease; }
+.droplet-label { text-align: center; margin-top: -2px; }
+.droplet-label #water-progress-pct {
+  font-size: 30px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.droplet-label #water-progress-liters { color: #9ca3af; font-size: 12px; margin-top: 6px; display: block; }
+/* Water Facts text style */
+.water-tips .fact-text {
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: #e0f2fe;
+}
+#sleep-start-dot.highlight-dot {
+  filter: drop-shadow(0 0 16px #fff) drop-shadow(0 0 10px #a78bfa);
+  transition: filter 0.2s, r 0.2s, opacity 0.2s;
+  /* Make the dot a bit bigger and more visible */
+  /* The JS sets r, but extra glow here */
+}
+/* Inline Sleep Inputs */
+/* --- Sleep Inline Inputs --- */
+.sleep-inline {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px; /* spacing between all elements */
+}
+
+.sleep-inline .sleep-field {
+  flex: 1; /* inputs expand but still share space */
+}
+
+.sleep-inline .sleep-field input[type="time"] {
+  width: 100%;
+  min-width: 200px;   /* keeps them wider */
+  max-width: 280px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  color: #f9fafb;
+  font-size: 15px;
+}
+
+.sleep-inline .sleep-field button.btn {
+  height: 48px;
+  padding: 0 22px;
+  white-space: nowrap;
+}
+/* --- Prevent overlap and align Save button in .sleep-inline --- */
+.sleep-inline .sleep-field { min-width: 0; }
+.sleep-inline .sleep-field:last-child { flex: 0 0 auto; }
+.sleep-inline .sleep-field button.btn { height: 48px; padding: 0 18px; white-space: nowrap; }
+
+/* Responsive: stack on narrow screens */
+@media (max-width: 700px) {
+  .sleep-inline { flex-wrap: wrap; }
+  .sleep-inline .sleep-field { flex: 1 1 100%; }
+  .sleep-inline .sleep-field:last-child { flex: 0 0 100%; }
+  .sleep-inline .sleep-field button.btn { width: 100%; }
+}
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #011638 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%);
+    background-attachment: fixed;
+    margin: 0;
+    padding: var(--header-offset) 20px 20px;
+    min-height: 100vh;
+  }
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    margin: 0;
+    background: rgba(2, 6, 23, 0.35); /* very dark navy with transparency */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 0; /* remove seam under header */
+    z-index: 100;
+  }
+  header h1 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #10b981;
+  }
+  nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #e5e7eb;
+    font-weight: 500;
+    position: relative;
+    padding: 6px 0;
+  }
+  nav a:hover {
+    color: #10b981;
+  }
+  nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    height: 2px;
+    background: #10b981;
+    transition: width 0.25s ease;
+  }
+  nav a.active {
+    color: #10b981;
+  }
+  nav a.active::after {
+    width: 100%;
+  }
+  nav a:hover::after {
+    width: 100%;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  /* Responsive design for smaller screens */
+  @media (max-width: 1200px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .card {
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 16px;
+    padding: 2px;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.8), transparent, rgba(255, 255, 255, 0.8), transparent);
+    background-size: 200% 200%;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+  }
+
+  @keyframes aura-travel {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  .card h2 {
+    margin: 10px 0 0;
+  }
+
+  /* Accent colors for key elements (emoji styling removed) */
+  .blue { background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(59, 130, 246, 0.3); color: #e2e8f0; }
+  .purple { background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(147, 51, 234, 0.3); color: #e2e8f0; }
+  .orange { background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(249, 115, 22, 0.3); color: #e2e8f0; }
+  .green { background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(34, 197, 94, 0.3); color: #e2e8f0; }
+  .yellow { background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(234, 179, 8, 0.3); color: #e2e8f0; }
+  .light-orange { background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(251, 146, 60, 0.2); color: #e2e8f0; }
+  .light-purple { background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(168, 85, 247, 0.2); color: #e2e8f0; }
+  .gray { background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(107, 114, 128, 0.3); color: #e2e8f0; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  ul li { margin: 4px 0; }
+  .circle {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    border: 8px solid #f59e0b;
+    margin: 10px auto;
+    transition: border-color 0.3s;
+  }
+  .leaderboard ol { padding: 0; margin: 0; text-align: left; }
+  .leaderboard li { margin: 4px 0; }
+  .note { font-size: 12px; color: #6b7280; margin-top: 10px; }
+  button {
+    margin-top: 10px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #1d4ed8;
+  }
+  button:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+  }
+  /* Inline Water Controls — glassy, on-brand */
+  .water-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+    padding-bottom: 14px;                    /* space before divider */
+    border-bottom: 1px solid rgba(255,255,255,0.14); /* visible separation */
+  }
+  @media (max-width: 800px) {
+    .water-buttons { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .water-buttons { grid-template-columns: repeat(2, 1fr); }
+  }
+  .water-buttons button {
+    margin-top: 0;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.08);
+    color: #e5e7eb;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,0.06),
+      0 8px 18px rgba(0,0,0,0.25);
+    transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+
+  /* Bigger ml buttons only (exclude Undo/Reset) */
+  .water-buttons button:not(.undo-btn):not(.reset-btn) {
+    padding: 16px 18px;
+    font-size: 16px;
+    border-radius: 16px;
+    min-height: 52px;
+  }
+  .water-buttons button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(16,185,129,0.5); /* accent */
+    background: rgba(255,255,255,0.12);
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,0.08),
+      0 10px 22px rgba(16,185,129,0.20);
+  }
+  .water-buttons button:active {
+    transform: translateY(0);
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,0.1),
+      0 6px 14px rgba(0,0,0,0.25);
+  }
+  .water-buttons button:focus {
+    outline: none;
+    box-shadow:
+      0 0 0 3px rgba(16,185,129,0.35),
+      inset 0 0 0 1px rgba(255,255,255,0.1);
+    border-color: rgba(16,185,129,0.6);
+  }
+
+  /* Water action row below (Undo + Reset side by side) */
+  .water-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;               /* slightly tighter for smaller buttons */
+    margin-top: 12px;       /* compact spacing above row */
+  }
+  .water-actions .undo-btn,
+  .water-actions .reset-btn {
+    padding: 6px 10px;     /* smaller */
+    font-size: 12px;       /* smaller */
+    font-weight: 700;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.08);
+    color: #e5e7eb;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,0.06),
+      0 6px 14px rgba(0,0,0,0.22);
+    transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .water-actions .undo-btn:hover,
+  .water-actions .reset-btn:hover {
+    transform: translateY(-1px);
+  }
+  .water-actions .undo-btn {
+    background: rgba(107,114,128,0.25);
+    border-color: rgba(148,163,184,0.35);
+  }
+  .water-actions .reset-btn {
+    background: rgba(239, 68, 68, 0.22);
+    border-color: rgba(239, 68, 68, 0.35);
+    color: #fee2e2;
+  }
+  .water-actions .undo-btn:disabled {
+    background: rgba(229,231,235,0.2);
+    color: #9ca3af;
+    border-color: rgba(209,213,219,0.35);
+    box-shadow: none;
+    transform: none;
+  }
+
+/* === Align Set Goal input and button (glassy input) === */
+.water-goal {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.water-goal #goal-input-inline {
+  height: 44px;
+  min-width: 260px;         /* give it a reasonable width */
+  padding: 0 14px;
+  font-size: 15px;
+  color: #e5e7eb;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.08);
+  outline: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.06),
+    0 8px 18px rgba(0,0,0,0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-sizing: border-box;
+  margin-top: 10px;
+}
+.water-goal #goal-input-inline::placeholder {
+  color: rgba(226,232,240,0.7);
+}
+.water-goal #goal-input-inline:focus {
+  border-color: rgba(16,185,129,0.55);
+  box-shadow:
+    0 0 0 3px rgba(16,185,129,0.28),
+    inset 0 0 0 1px rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.12);
+}
+.water-goal #btn-save-water {
+  height: 44px;
+  padding: 0 22px;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(1px); /* tiny optical tweak to match input baseline */
+}
+/* Remove number spinners */
+.water-goal #goal-input-inline::-webkit-outer-spin-button,
+.water-goal #goal-input-inline::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+@media (max-width: 520px) {
+  .water-goal { flex-direction: column; align-items: stretch; }
+  .water-goal #btn-save-water { transform: none; }
+}
+/* === Circular Water Progress === */
+.water-progress {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: -10px 0 16px 0;
+}
+.water-progress .ring { display: block; }
+.water-progress .track {
+  fill: none;
+  stroke: rgba(255,255,255,0.15);
+  stroke-width: 14;
+}
+.water-progress .arc {
+  fill: none;
+  stroke: url(#waterGradient);
+  stroke-width: 14;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  stroke-dasharray: 753.98; /* 2 * PI * r  where r = 120 */
+  stroke-dashoffset: 753.98; /* start empty */
+  filter: drop-shadow(0 6px 12px rgba(59,130,246,0.35));
+}
+/* Hydration Tips Panel */
+.water-tips {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  color: #e5e7eb;
+  max-width: 320px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.water-tips h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  color: #60a5fa;
+}
+.water-tips ul {
+  margin: 0;
+  padding-left: 0;
+  font-size: 14px;
+  color: #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.water-tips li {
+  margin-bottom: 6px;
+}
+/* Fallback solid color if gradient isn't present */
+.water-progress .arc { stroke: #3b82f6; }
+.water-progress .ring-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+#water-progress-pct { font-size: 28px; font-weight: 800; color: #fff; line-height: 1; }
+#water-progress-liters { color: #9ca3af; font-size: 12px; margin-top: 6px; }
+
+/* Optional: center the ring on smaller screens */
+@media (max-width: 600px) {
+  .water-progress { margin-left: auto; margin-right: auto; }
+}
+  .sleep-input {
+    margin-top: 10px;
+  }
+  .sleep-input input {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  .sleep-input input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+  }
+  .set-sleep-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+/* === Sleep 7-day History (below ring) === */
+.sleep-history {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 14px;
+  margin-top: 12px;
+  width: 100%;
+  max-width: 360px; /* tidy row under 300px ring */
+}
+
+.sleep-history-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.sleep-history-item svg { width: 44px; height: 44px; }
+/* Sleep History Day/Hrs labels - higher contrast */
+.sleep-history-item .day { font-size: 12px; color: #e2e8f0; letter-spacing: 0.02em; }
+.sleep-history-item .hrs { font-size: 11px; color: #cbd5e1; }
+
+/* Sleep moon SVGs - more visible */
+.sleep-moon-outline {
+  fill: none;
+  stroke: #a78bfa; /* match sleep ring */
+  stroke-width: 2.5;
+}
+.sleep-moon-fill {
+  fill: #8b5cf6;        /* unified purple fill */
+  filter: drop-shadow(0 0 6px rgba(139,92,246,0.6));
+}
+
+/* Sleep history brightness */
+.sleep-history { filter: none; }
+.sleep-history-item svg { opacity: 1 !important; mix-blend-mode: normal; }
+.sleep-history-item svg circle { paint-order: stroke fill; }
+
+  /* Modal Styles */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.show {
+    display: flex;
+    opacity: 1;
+  }
+  .modal-content {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 30px 25px;
+    max-width: 90%;
+    width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    transform: scale(0.8) translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+    opacity: 0;
+    box-sizing: border-box;
+    color: white;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+  .modal-overlay.show .modal-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  .modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+  .modal-close:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Modal Water Buttons */
+  .modal-water-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 20px 0;
+  }
+  .modal-water-buttons button {
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+  }
+  .modal-water-buttons button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+  }
+  .modal-undo-btn {
+    grid-column: 1 / -1;
+    margin-top: 10px;
+  }
+  /* Water Goal Input */
+/* Water Goal Input */
+/* CHANGE this selector to exclude the inline input */
+#goal-input {                           /* was: #goal-input, #goal-input-inline */
+  width: 85%;
+  max-width: 250px;
+  padding: 12px;
+  font-size: 16px;
+  text-align: center;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  margin: 0 auto 15px auto;
+  display: block;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+#goal-input::placeholder {              /* was: #goal-input::placeholder, #goal-input-inline::placeholder */
+  color: rgba(255, 255, 255, 0.6);
+}
+
+#goal-input:focus {                      /* was: #goal-input:focus, #goal-input-inline:focus */
+  border-color: #34d399;
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.3);
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+
+  /* Modal Sleep Input */
+  .modal-sleep-input {
+    margin: 20px 0;
+  }
+  .modal-sleep-input input {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    text-align: center;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    max-width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    backdrop-filter: blur(10px);
+  }
+  .modal-sleep-input input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .modal-sleep-input input:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+    outline: none;
+  }
+
+  /* Modal Workout Buttons */
+  .modal-workout-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+  }
+  .modal-workout-buttons button {
+    flex: 1;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+  }
+  .modal-workout-buttons button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+  }
+
+  /* Card hover effect */
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .card {
+    border: 1px solid rgba(0, 255, 136, 0.6);
+    box-shadow:
+      0 0 6px rgba(0, 255, 136, 0.7),   /* tight inner glow */
+      0 0 12px rgba(0, 255, 136, 0.3); /* softer outer glow */
+  }
+
+  @keyframes softGlow {
+    from {
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+    }
+    to {
+      box-shadow: 0 0 25px rgba(0, 255, 136, 0.7);
+    }
+  }
+  .meal {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .meal label {
+    font-weight: 500;
+    margin-right: 10px;
+  }
+
+  .meal select {
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1);
+    color: white;
+  }
+  .quick-nav {
+    margin-top: 40px;
+    padding: 20px;
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    text-align: center;
+    color: #e2e8f0;
+  }
+
+  .quick-nav h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #10b981; /* accent color */
+  }
+
+  .quick-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .quick-links a {
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .quick-links a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+/* Ensure all section text uses white or light color for visibility on dark backgrounds */
+.page-section,
+.page-section h2,
+.page-section p,
+.page-section li {
+  color: #ffffffbd;
+}
+
+/* ===== HERO SECTION (Portfolio-style) ===== */
+.hero {
+  position: relative;
+  scroll-margin-top: 105px;
+  min-height: 85vh; /* each section takes full viewport */
+  height: auto; /* allow natural height for content */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: center;
+  background-image: none; /* using gradient bg from <body> */  background-size: cover;
+  background-position: center;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+
+
+
+.hero + .hero { margin-top: 22px; }
+
+/* Water hero should be full viewport like others */
+#water.hero { min-height: 85vh; }
+@media (max-width: 1000px) {
+  #water.hero { min-height: auto; }
+}
+/* dark gradient overlay */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(1200px 600px at 25% 40%, rgba(16,185,129,0.08), transparent 60%),
+              linear-gradient(120deg, rgba(2,6,23,0.85) 0%, rgba(2,6,23,0.75) 45%, rgba(2,6,23,0.35) 100%);
+  pointer-events: none;
+}
+
+/* Ensure hero overlay is behind content so text/controls don't look faded */
+.hero::before { z-index: 0; }
+.hero > * { position: relative; z-index: 1; }
+/* Explicitly lift key children that render UI on the right side */
+.hero .hero-content,
+.hero .hero-media,
+#workout .workout-details { position: relative; z-index: 1; }
+.hero-content {
+  position: relative;
+  padding: 48px;
+  max-width: 720px;
+  color: #e5e7eb;
+}
+.hero-eyebrow {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #94a3b8;
+}
+.hero-title {
+  margin: 10px 0 8px;
+  font-size: clamp(36px, 6.2vw, 72px);
+  line-height: 1.05;
+  font-weight: 800;
+  color: #fff;
+}
+/* Default highlight (green) */
+.hero-title .highlight {
+  color: #10b981;
+  text-shadow: 0 6px 22px rgba(16,185,129,0.35);
+  letter-spacing: 0.5px;
+}
+
+/* Water section highlight (blue) */
+#water .hero-title .highlight {
+  color: #3b82f6; /* blue */
+  text-shadow: 0 6px 22px rgba(59,130,246,0.35);
+}
+
+/* Sleep section highlight (purple) */
+#sleep .hero-title .highlight {
+  color: #a78bfa;
+  text-shadow: 0 6px 22px rgba(167,139,250,0.35);
+}
+
+/* Workout section highlight (red) */
+#workout .hero-title .highlight {
+  color: #ef4444; /* red */
+  text-shadow: 0 6px 22px rgba(239,68,68,0.35);
+}
+
+/* Nutrition section highlight (yellow) */
+#nutrition .hero-title .highlight {
+  color: #f59e0b; /* yellow */
+  text-shadow: 0 6px 22px rgba(245,158,11,0.35);
+}
+.hero-subtitle {
+  font-size: clamp(14px, 2.2vw, 18px);
+  color: #cbd5e1;
+  margin-bottom: 28px;
+}
+.hero-cta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.btn,
+.btn-outline {
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: all 0.2s ease;
+  background: transparent;
+  color: #e5e7eb;
+  text-decoration: none; /* stop default anchor underline */
+}
+
+.btn:hover,
+.btn-outline:hover {
+  text-decoration: none;
+}
+
+.btn {
+  background: #10b981;
+  color: #0b1727;
+  border-color: #10b981;
+}
+.btn:hover {
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(16,185,129,0.35);
+}
+.btn-outline {
+  border-color: rgba(255,255,255,0.35);
+}
+.btn-outline:hover {
+  border-color: #10b981;
+  color: #10b981;
+  transform: translateY(-1px);
+}
+
+.btn-outline.mini {
+  padding: 8px 14px;
+  font-size: 12px;
+}
+
+/* Logout button aesthetics */
+.btn-logout {
+  border-color: rgba(239,68,68,0.40);  /* soft red border */
+  color: #fca5a5;                      /* light red text */
+  opacity: 0.95;
+}
+.btn-logout:hover {
+  border-color: #ef4444;               /* vivid red on hover */
+  color: #ef4444;
+  box-shadow: 0 8px 18px rgba(239,68,68,0.25);
+  transform: translateY(-1px);
+}
+.btn-logout:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(239,68,68,0.18);
+}
+
+/* If the logout lives inside .hero-cta, give it a little spacing without inline styles */
+.hero-cta .btn-logout { margin-left: 8px; }
+.hero-socials {
+  position: relative;
+  margin-top: 28px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.hero-socials a {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #e2e8f0;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.hero-socials a:hover {
+  border-color: #10b981;
+  color: #10b981;
+  transform: translateY(-1px);
+}
+/* Default overview-side (for non-dashboard sections) */
+.overview-side {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.overview-panel {
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 14px;
+  padding: 14px 16px;
+  color: #e5e7eb;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+}
+.overview-panel h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  color: #10b981; /* green accent for consistency */
+}
+.overview-panel p {
+  margin: 0;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+/* Dashboard overview-side as grid layout */
+#dashboard .overview-side {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+#dashboard .overview-panel {
+  text-align: center;
+  padding: 28px;
+  font-size: 18px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 160px; /* ensures equal height */
+  /* Remove link underline and inherit color for clickable grid panels */
+}
+
+/* Make dashboard overview tiles behave like clean buttons (no underline, inherit color) */
+#dashboard .overview-panel,
+#dashboard .overview-panel:link,
+#dashboard .overview-panel:visited,
+#dashboard .overview-panel:hover,
+#dashboard .overview-panel:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+#dashboard .overview-panel:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.35), 0 0 12px rgba(16,185,129,0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#dashboard .overview-panel h3 {
+  font-size: 20px;
+}
+#dashboard .overview-panel p {
+  font-size: 16px;
+}
+
+/* Show right column only for Water + place ring there */
+#water.hero { grid-template-columns: 1.2fr 0.8fr; }
+#water .hero-media { display: flex !important; align-items: center; justify-content: center; padding: 24px; }
+#water .hero-media .frame {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#water .hero-media .frame { position: relative; overflow: hidden; }
+
+/* Show right column for Sleep as well */
+#sleep.hero { grid-template-columns: 1.2fr 0.8fr; }
+#sleep .hero-media { display: flex !important; align-items: center; justify-content: center; padding: 24px; }
+#sleep .hero-media .frame { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
+
+/* Show right column for Nutrition */
+#nutrition.hero { grid-template-columns: 1.2fr 0.8fr; }
+#nutrition .hero-media { display: flex !important; align-items: center; justify-content: center; padding: 24px; }
+#nutrition .hero-media .frame { width: 100%; display: flex; }
+
+/* Nutrition right-side panels */
+.nutrition-side { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 14px; }
+.nutri-panel {
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 14px;
+  padding: 16px 16px 14px;
+  color: #e5e7eb;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.35);
+}
+.nutri-panel h3 { margin: 0 0 10px; font-size: 16px; color: #f59e0b; }
+.nutri-totals { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.nutri-totals div { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 10px; padding: 8px 10px; font-size: 14px; }
+.nutri-goals { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+.nutri-goals label { font-size: 12px; color: #cbd5e1; display: flex; flex-direction: column; gap: 6px; }
+.nutri-goals input { padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.22); background: rgba(255,255,255,0.10); color: #e5e7eb; outline: none; }
+.nutri-tip { margin-top: 6px; color: #93c5fd; font-size: 14px; }
+
+/* === Sleep Clock === */
+.sleep-clock { position: relative; width: 300px; height: 300px; }
+.sleep-ring { display: block; }
+.sleep-ring text {
+  font-weight: 600;
+  pointer-events: none;
+}
+.sleep-track { fill: none; stroke: rgba(255,255,255,0.14); stroke-width: 20; }
+/* Use a path for precise start/end; hide circle-based arc */
+.sleep-arc { display: none; }
+.sleep-arc-path {
+  fill: none;
+  stroke: url(#sleepGradient);
+  stroke-width: 20;
+  stroke-linecap: round;
+  filter: drop-shadow(0 6px 12px rgba(167,139,250,0.35));
+}
+/* Fallback color */
+.sleep-arc-path { stroke: #a78bfa; }
+.sleep-center {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; pointer-events: none;
+}
+#sleep-duration-label { font-size: 24px; font-weight: 800; color: #fff; }
+.sleep-center small { color: #a5b4fc; margin-top: 6px; }
+
+#sleep-start-dot { filter: drop-shadow(0 0 6px rgba(167,139,250,0.7)); }
+#sleep-end-dot   { filter: drop-shadow(0 0 6px rgba(196,181,253,0.7)); }
+
+/* Responsive tweaks */
+@media (max-width: 1000px) {
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    scroll-margin-top: var(--header-offset);
+  }
+  .hero-media { display: none; }
+  #workout .hero-media { display: block !important; }
+  .hero-content { padding: 36px; }
+}
+
+/* Prevent inline SVG <defs> blocks from creating top gap */
+.svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* Full-width Workout Analysis section */
+.hero.workout-analysis {
+  display: block;
+  padding: 40px 20px;
+}
+.hero.workout-analysis .workout-stats-panel {
+  margin: 0 auto;            /* center the panel */
+  max-width: 960px;          /* comfortable readable width */
+  padding: 24px;             /* a bit roomier than inline card */
+}
+.hero.workout-analysis .workout-stats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.hero.workout-analysis .workout-stat {
+  padding: 14px 16px;        /* scale chips slightly up */
+  font-size: 16px;
+}
+/* Make Undo/Reset buttons compact and non-stretching (id-based fallback) */
+#btn-water-undo,
+#btn-water-reset {
+  padding: 4px 10px;      /* smallest touch target for ids */
+  font-size: 12px;
+  width: auto;            /* no stretch */
+  max-width: 110px;
+}
+.water-actions .undo-btn,
+.water-actions .reset-btn {
+  padding: 6px 10px;      /* compact */
+  font-size: 12px;        /* compact */
+  flex: 0 0 auto;         /* do not stretch */
+  max-width: 120px;       /* keep narrow */
+}
+/* Wider Nutrition Update button */
+#btn-nutrition-update {
+  min-width: 220px;     /* make it wider */
+  padding: 12px 24px;   /* comfy touch target */
+  font-size: 15px;
+  display: inline-block;
+  text-align: center;
+}
+/* Larger layout ONLY for Nutrition modal */
+.modal-content.nutrition-modal {
+  max-width: 820px;   /* roomier than default */
+  width: 92%;         /* responsive on smaller screens */
+  padding: 28px 30px; /* extra breathing room */
+}
+
+/* Nutrition modal food list alignment */
+.nm-list ul li.nm-item {
+  display: grid !important;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+.nm-item .nm-food-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nm-item .nm-macros {
+  min-width: 200px;
+  text-align: right;
+  color: #e5e7eb;
+}
+
+/* ===== Mobile tweaks ===== */
+@media (max-width: 640px) {
+  /* Make all heroes single column and reduce padding */
+  .hero { grid-template-columns: 1fr !important; gap: 18px; }
+  .hero-content { padding: 20px; }
+  .hero-title { font-size: clamp(26px, 8vw, 36px); }
+  .hero-subtitle { font-size: 14px; }
+
+  /* Make buttons thumb-friendly */
+  .btn, .btn-outline {
+    padding: 14px 18px;
+    font-size: 15px;
+  }
+  .btn-outline.mini, .btn.mini {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  /* Nutrition cards stack with tighter spacing */
+  .nutrition-side { max-width: none !important; }
+  .nutri-panel { padding: 12px !important; border-radius: 12px !important; }
+
+  /* Make totals grid 2 columns on phones */
+  .nutri-totals { grid-template-columns: 1fr 1fr !important; }
+
+  /* === Modal → full-screen bottom sheet on mobile === */
+  .modal-overlay.show { align-items: flex-end; }
+  .modal-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 82vh;                 /* comfy bottom sheet */
+    max-height: 82vh;
+    border-radius: 16px 16px 0 0 !important;
+    padding: 18px 16px !important;
+    transform: translateY(100%);
+    opacity: 1;                   /* avoid double fades on mobile */
+    transition: transform .28s ease-out;
+  }
+  .modal-overlay.show .modal-content {
+    transform: translateY(0);
+  }
+  .modal-close {
+    top: 10px; right: 12px; font-size: 22px;
+    width: 32px; height: 32px;
+  }
+
+  /* Inputs inside Nutrition modal */
+  .nm-food, .nm-qty {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    font-size: 16px !important;    /* better tap targets */
+    padding: 12px !important;
+  }
+  [data-add] { padding: 12px 14px !important; font-size: 15px !important; }
+
+  /* List items spacing & hit area */
+  .nm-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px;
+    align-items: center;
+  }
+  .nm-item .btn-outline.mini,
+  .nm-item [data-remove] {
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .water-buttons { grid-template-columns: repeat(2, 1fr) !important; }
+  .water-buttons button { min-height: 52px; font-size: 16px; }
+  .water-actions .undo-btn, .water-actions .reset-btn { min-height: 40px; }
+}
+
+@media (max-width: 640px) {
+  header { padding: 12px 14px; }
+  nav a { padding: 10px 0; margin-left: 14px; font-size: 14px; }
+}
+input[type="number"], input[type="time"], input[type="text"] {
+  font-size: 16px; /* prevents iOS zoom-on-focus */
+}
+/* --- Fix nutrition inputs going out of bounds --- */
+.nutri-panel { min-width: 0; }
+.nutri-goals {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* prevent overflow */
+  gap: 10px;
+}
+.nutri-goals label { min-width: 0; }               /* allow shrinking */
+.nutri-goals input[type="number"],
+.nutri-goals input[type="text"],
+.nutri-panel input,
+.nutri-panel select {
+  width: 100%;               /* fill column, not overflow */
+  min-width: 0;              /* allow narrower than content */
+  box-sizing: border-box;
+}
+
+/* Hide number spinners (prevents weird right-side overflow on iOS/Chrome) */
+.nutri-goals input[type="number"]::-webkit-outer-spin-button,
+.nutri-goals input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.nutri-goals input[type="number"] { -moz-appearance: textfield; }
+
+/* Tighter controls on very small screens */
+@media (max-width: 520px) {
+  .nutri-goals { grid-template-columns: 1fr; }
+  .nutri-panel { padding: 14px; }
+}
+
+/* Also ensure modal/content containers can shrink */
+.hero-media .frame,
+.overview-side,
+.workout-details { min-width: 0; }
+
+.leaderboard-box {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px 0;
+  color: #e5e7eb;
+}
+
+.leaderboard-box h3 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  color: #f59e0b; /* amber highlight */
+}
+
+.leaderboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.leaderboard-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.leaderboard-list li:last-child {
+  border-bottom: none;
+}
+
+.leaderboard-list .rank {
+  color: #9ca3af;
+  width: 30px;
+}
+
+.leaderboard-list .name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.leaderboard-list .score {
+  color: #34d399; /* green for score */
+}
+/* === Mobile Nav + Dashboard layout fixes === */
+@media (max-width: 640px) {
+  /* Make header stack and give nav room */
+  header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  nav { width: 100%; overflow-x: auto; white-space: nowrap; padding-bottom: 6px; }
+  nav a { margin: 0 12px 0 0; font-size: 14px; }
+
+  /* Dashboard: force overview side (the 4 tiles) to appear BELOW main content */
+  #dashboard.hero { display: flex !important; flex-direction: column; }
+  #dashboard .hero-content { order: 1; }
+  #dashboard .overview-side { order: 2; margin-top: 14px; }
+
+  /* Ensure the 4 tiles wrap nicely on small screens */
+  #dashboard .overview-side {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  @media (max-width: 420px) {
+    #dashboard .overview-side { grid-template-columns: 1fr; }
+  }
+}
+
+/* === Dashboard: show right-side cards on mobile and stack below overview === */
+@media (max-width: 800px) {
+  #dashboard.hero {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: none !important; /* cancel inline grid */
+  }
+  #dashboard .hero-content { order: 1; }
+
+  /* Most themes hide hero-media on mobile; force it visible and full-width */
+  #dashboard .hero-media {
+    display: block !important;
+    order: 2;
+    width: 100% !important;
+    padding-top: 8px;
+  }
+  #dashboard .hero-media .frame { width: 100% !important; }
+
+  /* Arrange the four tiles nicely */
+  #dashboard .overview-side {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  #dashboard .overview-side { grid-template-columns: 1fr !important; }
+}
+/* === Compact dashboard tiles on mobile === */
+@media (max-width: 640px) {
+  #dashboard .overview-side {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+  #dashboard .overview-panel {
+    min-height: 110px !important;
+    padding: 14px 12px !important;
+    border-radius: 14px !important;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.28) !important;
+  }
+  #dashboard .overview-panel h3 {
+    font-size: 16px !important;
+    margin-bottom: 6px !important;
+  }
+  #dashboard .overview-panel p {
+    font-size: 13px !important;
+    line-height: 1.25 !important;
+  }
+}
+
+@media (max-width: 380px) {
+  #dashboard .overview-panel {
+    min-height: 100px !important;
+    padding: 12px 10px !important;
+    border-radius: 12px !important;
+  }
+  #dashboard .overview-panel h3 { font-size: 15px !important; }
+  #dashboard .overview-panel p { font-size: 12px !important; }
+  #dashboard .overview-side { gap: 8px !important; }
+}
+/* === Sleep section mobile fixes === */
+@media (max-width: 700px) {
+  /* Keep the inline row from overflowing; make controls stack nicely */
+  .sleep-inline { flex-wrap: wrap; gap: 12px; }
+  .sleep-inline .sleep-field { flex: 1 1 100%; min-width: 0; }
+  .sleep-inline .sleep-field input[type="time"] {
+    min-width: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+  /* Make the Save button full-width so it never protrudes */
+  .sleep-inline .sleep-field button.btn,
+  .set-sleep-btn { width: 100% !important; }
+}
+
+/* Center the sleep clock on all screens and avoid overflow */
+.sleep-clock { margin-left: auto; margin-right: auto; display: block; }
+
+/* Keep the 7-day history within the screen and centered */
+@media (max-width: 700px) {
+  .sleep-history {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 320px;
+    gap: 10px;
+  }
+  .sleep-history-item svg { width: 36px; height: 36px; }
+}
+
+@media (max-width: 380px) {
+  .sleep-history { max-width: 300px; gap: 8px; }
+  .sleep-history-item svg { width: 32px; height: 32px; }
+}
+
+/* === REALLY FINAL: force Workout Record before everything else === */
+#workout.hero { display: flex !important; flex-direction: column !important; }
+#workout.hero > .hero-content { order: 1 !important; }
+#workout.hero > :not(.hero-content) { order: 2 !important; }
+#workout .workout-details { max-width: 250px !important; margin: 12px auto 16px !important; }
+
+/* === Fix Workout section rounded background === */
+#workout.hero {
+  border-radius: 18px !important; /* restore rounded edges */
+  overflow: hidden !important;   /* keep contents clipped to curve */
+  background: rgba(15, 23, 42, 0.6); /* subtle dark background to match theme */
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35); /* restore consistent shadow */
+}
+/* === Dashboard containment: keep tiles inside background area === */
+/* Give the dashboard right column (tiles) consistent inner padding */
+#dashboard .hero-media { padding: 0 28px 28px !important; box-sizing: border-box; }
+#dashboard .overview-side { max-width: 880px; margin: 0 auto; }
+
+/* On phones, slightly tighter padding so tiles don’t touch the edges */
+@media (max-width: 640px) {
+  #dashboard .hero-media { padding: 0 20px 20px !important; }
+  #dashboard .overview-side { max-width: 540px; }
+}
+
+/* Prevent hover lift from escaping the rounded background on small screens */
+@media (max-width: 800px) {
+  #dashboard .overview-panel:hover { transform: none; box-shadow: 0 6px 14px rgba(0,0,0,0.28); }
+}
